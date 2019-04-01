@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.28010.2050
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MainObject", "MainObject\MainObject.csproj", "{090D85D1-AAA7-41E0-968A-CA8CF639070A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PolishReverseRecord", "PolishReverseRecord\PolishReverseRecord.csproj", "{BD7EDF66-6387-49F3-820B-3A874B1375C2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassLibrary", "PolishReverseRecord\ClassLibrary.csproj", "{BD7EDF66-6387-49F3-820B-3A874B1375C2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

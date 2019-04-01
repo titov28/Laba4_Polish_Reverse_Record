@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ClassLibrary;
 
 namespace MainObject
 {
@@ -10,6 +11,39 @@ namespace MainObject
     {
         static void Main(string[] args)
         {
+
+            Stack myStack = new Stack();
+
+
+            myStack.Push(10);
+            myStack.Show();
+
+            myStack.Push(9);
+            myStack.Show();
+
+            myStack.Push(8);
+            myStack.Show();
+
+            myStack.Push(7);
+            myStack.Show();
+
+            myStack.Pop();
+            myStack.Show();
+
+            myStack.Pop();
+            myStack.Show();
+
+            myStack.Pop();
+            myStack.Show();
+
+            myStack.Pop();
+            myStack.Show();
+
+            myStack.Pop();
+            myStack.Show();
+
+
+            Console.ReadLine();
         }
     }
 }
