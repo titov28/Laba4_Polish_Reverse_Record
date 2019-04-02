@@ -15,7 +15,10 @@ namespace ClassLibrary
             this.Element = value;
         }
 
-
+        public NumberToken(NumberToken<T> numberToken)
+        {
+            this.Element = numberToken.Element;
+        }
     }
 
 }

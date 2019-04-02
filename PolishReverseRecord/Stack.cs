@@ -6,33 +6,33 @@ using System.Threading.Tasks;
 
 namespace ClassLibrary
 {
-    public class Node
+    public class Node<T>
     {
-        public int x;
-        public Node next;
+        public T x;
+        public Node<T> next;
     }
    
 
-    public class Stack
+    public class Stack<T>
     {
-        private Node head;
+        private Node<T> head;
 
         public Stack()
         {
             head = null;
         }
 
-        public void Push(int element)
+        public void Push(T element)
         {
             if(head == null)
             {
-                head = new Node();
+                head = new Node<T>();
                 head.x = element;
                 head.next = null;
             }
             else
             {
-                Node temp = new Node();
+                Node<T> temp = new Node<T>();
                 temp.x = element;
                 temp.next = head;
 
@@ -43,9 +43,9 @@ namespace ClassLibrary
 
         }
 
-       public int Pop()
+       public T Pop()
         {
-            Node temp;
+            Node<T> temp;
             if(head != null)
             {
                 temp = head.next;
@@ -57,9 +57,10 @@ namespace ClassLibrary
             else
             {
                 Console.WriteLine("Стек пуст.");
+                return default(T);
             }
 
-            return -1;
+            
         }
 
         public void Show()
@@ -67,7 +68,7 @@ namespace ClassLibrary
             Console.Write("\n");
             Console.WriteLine("Содержимое стека: ");
 
-            Node temp = head;
+            Node<T> temp = head;
 
 
             while (temp != null)

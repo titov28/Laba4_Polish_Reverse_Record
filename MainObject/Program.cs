@@ -12,7 +12,7 @@ namespace MainObject
         static void Main(string[] args)
         {
 
-            Stack myStack = new Stack();
+            ClassLibrary.Stack<int> myStack = new ClassLibrary.Stack<int>();
 
 
             myStack.Push(10);
