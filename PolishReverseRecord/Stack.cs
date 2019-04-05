@@ -70,6 +70,20 @@ namespace ClassLibrary
 
         }
 
+
+
+        public T GetHead()
+        {
+            if(head != null)
+            {
+                return head.x;
+            }
+            else
+            {
+                return default(T);
+            }
+        }
+
         public void Show()
         {
             Console.Write("\n");
