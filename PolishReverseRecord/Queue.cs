@@ -6,57 +6,48 @@ using System.Threading.Tasks;
 
 namespace ClassLibrary
 {
-    public class Node<T>
+    public class Queue<T>
     {
-        public T x;
-        public Node<T> next;
+        Node<T> head;
+        Node<T> prev;
 
-
-        public Node()
+        public Queue()
         {
-            x = default(T);
-            next = null;
-        }
-    }
-   
-
-    public class Stack<T>
-    {
-        private Node<T> head;
-
-        public Stack()
-        {
+            prev = null;
             head = null;
         }
 
         public void Push(T element)
         {
-            if(head == null)
+            Node<T> temp = new Node<T>();
+            temp.x = element;
+            temp.next = null;
+
+            if (head == null)
             {
-                head = new Node<T>();
-                head.x = element;
-                head.next = null;
+                head = temp;
+            }
+            else if(prev == null)
+            {
+                prev = temp;
+                head.next = prev;
             }
             else
             {
-                Node<T> temp = new Node<T>();
-                temp.x = element;
-                temp.next = head;
-
-                head = temp;
-
-                temp = null;
+                prev.next = temp;
+                prev = temp;
             }
-
         }
 
-       public T Pop()
+        public T Pop()
         {
             Node<T> temp;
 
             if (head == null)
             {
-                Console.WriteLine("Стек пуст.");
+                prev = null;
+
+                Console.WriteLine("Очередь пуста.");
                 return default(T);
             }
             else
@@ -66,14 +57,12 @@ namespace ClassLibrary
 
                 return temp.x;
             }
-            
-
         }
 
         public void Show()
         {
             Console.Write("\n");
-            Console.WriteLine("Содержимое стека: ");
+            Console.WriteLine("Содержимое очереди: ");
 
             Node<T> temp = head;
 
@@ -86,5 +75,6 @@ namespace ClassLibrary
             }
 
         }
+
     }
 }

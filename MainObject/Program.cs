@@ -12,8 +12,8 @@ namespace MainObject
         static void Main(string[] args)
         {
 
-            ClassLibrary.Stack<int> myStack = new ClassLibrary.Stack<int>();
-
+            //ClassLibrary.Stack<int> myStack = new ClassLibrary.Stack<int>();
+            ClassLibrary.Queue<int> myStack = new ClassLibrary.Queue<int>();
 
             myStack.Push(10);
             myStack.Show();
