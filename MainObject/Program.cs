@@ -12,36 +12,45 @@ namespace MainObject
         static void Main(string[] args)
         {
 
-            //ClassLibrary.Stack<int> myStack = new ClassLibrary.Stack<int>();
-            ClassLibrary.Queue<int> myStack = new ClassLibrary.Queue<int>();
+            //string str = "((2+3)/4) + (5*6)";
+            //string str = "sin(2) + 2";
+            ParserString prStr = new ParserString();
+            PolishReverseRecord prr = new PolishReverseRecord();
 
-            myStack.Push(10);
-            myStack.Show();
+            Console.Write("Введите формулу:");
 
-            myStack.Push(9);
-            myStack.Show();
+            string str = string.Empty;
+            double arg1 = 0;
+            double arg2 = 0;
+            double step = 0;
 
-            myStack.Push(8);
-            myStack.Show();
+            str = Console.ReadLine();
 
-            myStack.Push(7);
-            myStack.Show();
+            Console.WriteLine();
 
-            myStack.Pop();
-            myStack.Show();
+            Console.Write("Введите диапазон :\n");
 
-            myStack.Pop();
-            myStack.Show();
+            Console.Write("от ");
+            arg1 = Convert.ToDouble(Console.ReadLine());
+            Console.Write("до ");
+            arg2 = Convert.ToDouble(Console.ReadLine());
+            Console.WriteLine();
 
-            myStack.Pop();
-            myStack.Show();
 
-            myStack.Pop();
-            myStack.Show();
+            Console.Write("Введите шаг: ");
+            step = Convert.ToDouble(Console.ReadLine());
 
-            myStack.Pop();
-            myStack.Show();
+            Console.Write("Результат: \n");
+            Console.WriteLine();
 
+            for (double i = arg1; i <= arg2; i += step)
+            {
+                prStr.SetSourceString(str.Replace("x", i.ToString()));
+                prStr.Parse();
+                prr.SetOutputQueue(prStr.GetPolishReverseString());
+                Console.Write("{0, 5} {1:0.000 , 5} \n", i, prr.Calculation());
+
+            }
 
             Console.ReadLine();
         }

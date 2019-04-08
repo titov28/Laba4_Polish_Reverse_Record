@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace ClassLibrary
 {
-    public class Queue<T>
+    public class Queue
     {
-        Node<T> head;
-        Node<T> prev;
+        Node head;
+        Node prev;
 
         public Queue()
         {
@@ -17,9 +17,9 @@ namespace ClassLibrary
             head = null;
         }
 
-        public void Push(T element)
+        public void Push(Token element)
         {
-            Node<T> temp = new Node<T>();
+            Node temp = new Node();
             temp.x = element;
             temp.next = null;
 
@@ -39,16 +39,16 @@ namespace ClassLibrary
             }
         }
 
-        public T Pop()
+        public Token Pop()
         {
-            Node<T> temp;
+            Node temp;
 
             if (head == null)
             {
                 prev = null;
 
-                Console.WriteLine("Очередь пуста.");
-                return default(T);
+                //Console.WriteLine("Очередь пуста.");
+                return default(Token);
             }
             else
             {
@@ -59,7 +59,7 @@ namespace ClassLibrary
             }
         }
 
-        public T GetHead()
+        public Token GetHead()
         {
             if (head != null)
             {
@@ -67,7 +67,19 @@ namespace ClassLibrary
             }
             else
             {
-                return default(T);
+                return default(Token);
+            }
+        }
+
+        public bool IsEmpty()
+        {
+            if(head == null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
@@ -76,12 +88,12 @@ namespace ClassLibrary
             Console.Write("\n");
             Console.WriteLine("Содержимое очереди: ");
 
-            Node<T> temp = head;
+            Node temp = head;
 
 
             while (temp != null)
             {
-                Console.WriteLine(temp.x);
+                Console.WriteLine(temp.x.Element);
 
                 temp = temp.next;
             }

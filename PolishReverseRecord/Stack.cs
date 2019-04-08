@@ -6,40 +6,40 @@ using System.Threading.Tasks;
 
 namespace ClassLibrary
 {
-    public class Node<T>
+    public class Node
     {
-        public T x;
-        public Node<T> next;
+        public Token x;
+        public Node next;
 
 
         public Node()
         {
-            x = default(T);
+            x = default(Token);
             next = null;
         }
     }
    
 
-    public class Stack<T>
+    public class Stack
     {
-        private Node<T> head;
+        private Node head;
 
         public Stack()
         {
             head = null;
         }
 
-        public void Push(T element)
+        public void Push(Token element)
         {
             if(head == null)
             {
-                head = new Node<T>();
+                head = new Node();
                 head.x = element;
                 head.next = null;
             }
             else
             {
-                Node<T> temp = new Node<T>();
+                Node temp = new Node();
                 temp.x = element;
                 temp.next = head;
 
@@ -50,14 +50,14 @@ namespace ClassLibrary
 
         }
 
-       public T Pop()
+       public Token Pop()
         {
-            Node<T> temp;
+            Node temp;
 
             if (head == null)
             {
-                Console.WriteLine("Стек пуст.");
-                return default(T);
+                //Console.WriteLine("Стек пуст.");
+                return default(Token);
             }
             else
             {
@@ -72,7 +72,7 @@ namespace ClassLibrary
 
 
 
-        public T GetHead()
+        public Token GetHead()
         {
             if(head != null)
             {
@@ -80,7 +80,19 @@ namespace ClassLibrary
             }
             else
             {
-                return default(T);
+                return default(Token);
+            }
+        }
+
+        public bool IsEmpty()
+        {
+            if(head == null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
@@ -89,12 +101,12 @@ namespace ClassLibrary
             Console.Write("\n");
             Console.WriteLine("Содержимое стека: ");
 
-            Node<T> temp = head;
+            Node temp = head;
 
 
             while (temp != null)
             {
-                Console.WriteLine(temp.x);
+                Console.WriteLine(temp.x.Element);
 
                 temp = temp.next;
             }

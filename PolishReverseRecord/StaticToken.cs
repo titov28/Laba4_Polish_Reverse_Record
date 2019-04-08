@@ -29,6 +29,7 @@ namespace ClassLibrary
                     if(PriorityArray[i][j] == it)
                     {
                         flag = true;
+                        return flag;
                     }
                 }
             }
@@ -38,6 +39,7 @@ namespace ClassLibrary
                 if(AdditionalTokens[i] == it)
                 {
                     flag = true;
+                    return flag;
                 }
             }
 
@@ -57,6 +59,99 @@ namespace ClassLibrary
             }
 
             return lst.ToArray();
+        }
+
+        public static int[] GetIndexNext(string str)
+        {
+
+            List<int> minList = new List<int>();
+            char[] charString = str.ToArray();
+
+           for(int m = 0; m < charString.Length; m++)
+            {
+                for (int i = 0; i < PriorityArray.Length; i++)
+                {
+                    for (int j = 0; j < PriorityArray[i].Length; j++)
+                    {
+                        int counter = 0;
+                        char[] charArray = PriorityArray[i][j].ToArray();
+                        for (int k = 0; k < charArray.Length; k++)
+                        {
+                            if (m + charArray.Length <= charString.Length)
+                            {
+                                if (charString[m + k] == charArray[k])
+                                {
+                                    if (minList.Count > 0)
+                                    {
+                                        //игнорирование унарного минуса если список не пуст
+                                        if (m + k != minList.ElementAt(minList.Count - 1) && charArray[k] != '-')
+                                        {
+                                            counter++;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        //игнорирование унарного минуса если список пуст
+                                        if (charArray[k] != '-')
+                                        {
+                                            counter++;
+                                        }
+                                    }
+                                }
+
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+
+                        if(counter == charArray.Length)
+                        {
+                            minList.Add(m);
+                            minList.Add(m + counter);
+                        }
+                    }
+                }
+            }
+
+            for (int m = 0; m < charString.Length; m++)
+            {
+                for (int i = 0; i < AdditionalTokens.Length; i++)
+                {
+                    int counter = 0;
+                    char[] charArray = AdditionalTokens[i].ToArray();
+                    for (int k = 0; k < charArray.Length; k++)
+                    {
+                        if (m + charArray.Length <= charString.Length)
+                        {
+                            if (charString[m + k] == charArray[k])
+                            {
+                                counter++;
+                            }
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+
+                    if (counter == charArray.Length)
+                    {
+                        minList.Add(m);
+                        minList.Add(m + counter);
+                    }
+
+                }
+            }
+
+
+
+
+            minList.Sort();
+
+            return minList.ToArray();
+
         }
 
         public static int GetPriority(string symbol)

@@ -10,9 +10,9 @@ namespace ClassLibrary
     {
         public string Element { get; set; }
         public int Priority { get; set; }
-        
 
-        public bool OperationFlag { get; set;}
+
+        public bool OperationFlag { get; set; }
 
         public Token(string value)
         {
@@ -41,6 +41,7 @@ namespace ClassLibrary
                 OperationFlag = false;
             }
         }
+    
 
 
     }

@@ -6,66 +6,166 @@ using System.Threading.Tasks;
 
 namespace ClassLibrary
 {
-    class ParserString
+    public class ParserString
     {
         private string sourceString;
-        public string SourceString
-        {
-            get { return sourceString; }
-            set { sourceString = value;}
-        }
 
-        public Queue<Token> outputString;
+        public Queue outputQueue;
 
-        public Queue<Token> sourceQueue;
+        public Queue sourceQueue;
+
+        public Stack operarionStack;
 
         public ParserString()
         {
-            outputString = null;
-            sourceQueue = null;
-            sourceString = null;
+            outputQueue = null;// очередь выходной строки
+            operarionStack = null; // стек для операций
+
+            sourceQueue = null; // очередь исходной строки
+            sourceString = null;// исходная строка
         }
 
-        public void Parse(string str)
+       public void SetSourceString(string str)
         {
-            sourceQueue = new Queue<Token>();
+            char[] charString = str.ToArray();
+            string tempString = string.Empty;
 
-            char[] locCharString = str.ToArray();
+            //избавляемся от пробелов
+            for (int i = 0; i < charString.Length; i++)
+            {
+                if (charString[i] != ' ')
+                {
+                    tempString += charString[i];
+                }
+            }
+
+            sourceString = tempString;
+        }
+
+        public void Parse()
+        {
+            sourceQueue = new Queue();
+
+            int[] indexArray = StaticToken.GetIndexNext(sourceString);
+
+            int index = 0;
 
             string tempString = string.Empty;
 
-            for(int i = 0; i < locCharString.Length; i++)
+            for(int i = 0; i <= indexArray.Length; )
             {
-                if (!StaticToken.ContainsIt(locCharString[i].ToString()))
+                if (i < indexArray.Length)
                 {
-                    tempString += locCharString[i].ToString();
-
-
-
-                    if (i != locCharString.Length)
+                    if (indexArray[i] == index)
                     {
-                        if (StaticToken.ContainsIt(locCharString[i + 1].ToString()))
-                        {
-                            sourceQueue.Push(new Token(tempString));
-                            tempString = string.Empty;
-                        }
+                        // добавляем операцию в очередь
+                        tempString = sourceString.Substring(index, indexArray[i + 1] - index);
+                        sourceQueue.Push(new Token(tempString, StaticToken.GetPriority(tempString)));
+                        index = indexArray[i + 1];
+                        i += 2;
                     }
                     else
                     {
-                        sourceQueue.Push(new Token(tempString));
-                        tempString = string.Empty;
+                        //добавляем число в очередь
+                        tempString = sourceString.Substring(index, indexArray[i] - index);
+                        sourceQueue.Push(new Token(tempString.Trim()));
+                        index = indexArray[i];
                     }
-
                 }
                 else
                 {
-                    sourceQueue.Push(new Token(locCharString[i].ToString(), StaticToken.GetPriority(locCharString[i].ToString())));
+                    //добавляем остаток строки в очередь
+                    tempString = sourceString.Substring(index);
+                    if (tempString != string.Empty)
+                        sourceQueue.Push(new Token(tempString.Trim()));
+                    i += 2;
                 }
+
                 
             }
 
-
+            //sourceQueue.Show();
         }
+
+        public Queue GetPolishReverseString()
+        {
+            outputQueue = new Queue();
+            operarionStack = new Stack();
+
+
+            if (sourceQueue != null)
+            {
+                //цикл пока очередь не пуста
+                while (!sourceQueue.IsEmpty())
+                {
+                    // Если число
+                    if (!sourceQueue.GetHead().OperationFlag)
+                    {
+                        // Выталкиваем элемент из входной строки в выходную
+                        outputQueue.Push(sourceQueue.Pop());
+
+
+                    } //иначе если текущий элемент "("
+                    else if (sourceQueue.GetHead().Element == "(")
+                    {
+                        // выталкиваем в стек
+                        operarionStack.Push(sourceQueue.Pop());
+
+                    } //иначе если текущий элемент ")"
+                    else if(sourceQueue.GetHead().Element == ")")
+                    {
+                        //уничтожаем закрывающую скобку
+                        sourceQueue.Pop();
+
+                        //выталкиваем из стека в выходную строку пока не встретим "("
+                        while(operarionStack.GetHead().Element != "(")
+                        {
+                            outputQueue.Push(operarionStack.Pop());
+                        }
+
+                        //уничтожаем открывающую скобку
+                        operarionStack.Pop();
+
+                    } // если операция
+                    else if (sourceQueue.GetHead().OperationFlag)
+                    {
+                        //если стек пуст
+                        if (operarionStack.IsEmpty())
+                        {
+                            // помещаем операцию в стек
+                            operarionStack.Push(sourceQueue.Pop());
+                        } // иначе если приоритет занка в стеке меньше , чем в строке
+                        else if(operarionStack.GetHead().Priority < sourceQueue.GetHead().Priority)
+                        {
+                            //добавляем операцию в стек
+                            operarionStack.Push(sourceQueue.Pop());
+                        } // иначе 
+                        else
+                        {
+                            // выталкиваем операцию из тека в выходную строоку
+                            outputQueue.Push(operarionStack.Pop());
+                        }
+                    }
+                }
+
+                //когда закончилась входная строка, в цикле выталкиваем оставшиеся операции из стека в выходную строку 
+                while (!operarionStack.IsEmpty())
+                {
+                    outputQueue.Push(operarionStack.Pop());
+                }
+
+                //outputQueue.Show();
+
+                return outputQueue;
+            }
+            else
+            {
+                Console.Write("\n");
+                Console.WriteLine("Нет входной строки");
+                return default(Queue);
+            }
+        }
+
 
     }
 }
