@@ -8,41 +8,25 @@ namespace ClassLibrary
 {
     public class Token
     {
-        public string Element { get; set; }
+        public string Operation { get; set; }
+        public double Number { get; set; }
         public int Priority { get; set; }
 
 
         public bool OperationFlag { get; set; }
 
-        public Token(string value)
+        public Token(double value)
         {
-            this.Element = value;
+            this.Number = value;
             OperationFlag = false;
         }
 
         public Token(string el, int pr)
         {
-            this.Element = el;
+            this.Operation = el;
             this.Priority = pr;
             OperationFlag = true;
         }
-
-        public Token(Token token)
-        {
-            if (token.OperationFlag)
-            {
-                this.Element = token.Element;
-                this.Priority = token.Priority;
-                this.OperationFlag = true;
-            }
-            else
-            {
-                this.Element = token.Element;
-                OperationFlag = false;
-            }
-        }
-    
-
 
     }
 

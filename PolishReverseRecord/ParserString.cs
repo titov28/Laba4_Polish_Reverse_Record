@@ -51,6 +51,7 @@ namespace ClassLibrary
             int index = 0;
 
             string tempString = string.Empty;
+            double tempNumber = 0;
 
             for(int i = 0; i <= indexArray.Length; )
             {
@@ -67,17 +68,19 @@ namespace ClassLibrary
                     else
                     {
                         //добавляем число в очередь
-                        tempString = sourceString.Substring(index, indexArray[i] - index);
-                        sourceQueue.Push(new Token(tempString.Trim()));
+                        tempNumber = Convert.ToDouble(sourceString.Substring(index, indexArray[i] - index));
+                        sourceQueue.Push(new Token(tempNumber));
                         index = indexArray[i];
                     }
                 }
                 else
                 {
-                    //добавляем остаток строки в очередь
-                    tempString = sourceString.Substring(index);
-                    if (tempString != string.Empty)
-                        sourceQueue.Push(new Token(tempString.Trim()));
+                    if (sourceString.Substring(index) != "")
+                    {
+                        //добавляем остаток строки в очередь
+                        tempNumber = Convert.ToDouble(sourceString.Substring(index));
+                        sourceQueue.Push(new Token(tempNumber));
+                    }
                     i += 2;
                 }
 
@@ -106,19 +109,19 @@ namespace ClassLibrary
 
 
                     } //иначе если текущий элемент "("
-                    else if (sourceQueue.GetHead().Element == "(")
+                    else if (sourceQueue.GetHead().Operation == "(")
                     {
                         // выталкиваем в стек
                         operarionStack.Push(sourceQueue.Pop());
 
                     } //иначе если текущий элемент ")"
-                    else if(sourceQueue.GetHead().Element == ")")
+                    else if(sourceQueue.GetHead().Operation == ")")
                     {
                         //уничтожаем закрывающую скобку
                         sourceQueue.Pop();
 
                         //выталкиваем из стека в выходную строку пока не встретим "("
-                        while(operarionStack.GetHead().Element != "(")
+                        while(operarionStack.GetHead().Operation != "(")
                         {
                             outputQueue.Push(operarionStack.Pop());
                         }
@@ -154,7 +157,7 @@ namespace ClassLibrary
                     outputQueue.Push(operarionStack.Pop());
                 }
 
-                //outputQueue.Show();
+               // outputQueue.Show();
 
                 return outputQueue;
             }

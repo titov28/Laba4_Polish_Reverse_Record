@@ -93,8 +93,17 @@ namespace ClassLibrary
 
             while (temp != null)
             {
-                Console.WriteLine(temp.x.Element);
+                if (temp.x.OperationFlag)
+                {
+                    Console.WriteLine(temp.x.Operation);
+                    
+                }
+                else
+                {
+                    Console.WriteLine(temp.x.Number);
+                }
 
+                    
                 temp = temp.next;
             }
 

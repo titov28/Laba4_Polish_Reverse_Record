@@ -10,10 +10,11 @@ namespace ClassLibrary
     {
         public Token x;
         public Node next;
-
+        
 
         public Node()
         {
+            
             x = default(Token);
             next = null;
         }
@@ -23,9 +24,11 @@ namespace ClassLibrary
     public class Stack
     {
         private Node head;
+        public int count;
 
         public Stack()
         {
+            count = 0;
             head = null;
         }
 
@@ -36,6 +39,7 @@ namespace ClassLibrary
                 head = new Node();
                 head.x = element;
                 head.next = null;
+                count++;
             }
             else
             {
@@ -46,6 +50,9 @@ namespace ClassLibrary
                 head = temp;
 
                 temp = null;
+
+
+                count++;
             }
 
         }
@@ -63,7 +70,7 @@ namespace ClassLibrary
             {
                 temp = head;
                 head = head.next;
-
+                count--;
                 return temp.x;
             }
             
@@ -106,7 +113,7 @@ namespace ClassLibrary
 
             while (temp != null)
             {
-                Console.WriteLine(temp.x.Element);
+                Console.WriteLine(temp.x.Operation);
 
                 temp = temp.next;
             }

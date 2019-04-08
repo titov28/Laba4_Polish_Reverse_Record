@@ -13,10 +13,10 @@ namespace ClassLibrary
             new string[] {"+", "-"},
             new string[] {"*", "/"},
             new string[] {"^"},
-            new string[] {"sin"} 
+            new string[] {"sin"}
         };
 
-        private static readonly string[] AdditionalTokens = {"(", ")"};
+        private static readonly string[] AdditionalTokens = { "(", ")" };
 
         public static bool ContainsIt(string it)
         {
@@ -26,7 +26,7 @@ namespace ClassLibrary
             {
                 for (int j = 0; j < PriorityArray[i].Length; j++)
                 {
-                    if(PriorityArray[i][j] == it)
+                    if (PriorityArray[i][j] == it)
                     {
                         flag = true;
                         return flag;
@@ -34,9 +34,9 @@ namespace ClassLibrary
                 }
             }
 
-            for(int i = 0; i < AdditionalTokens.Length; i++)
+            for (int i = 0; i < AdditionalTokens.Length; i++)
             {
-                if(AdditionalTokens[i] == it)
+                if (AdditionalTokens[i] == it)
                 {
                     flag = true;
                     return flag;
@@ -66,54 +66,6 @@ namespace ClassLibrary
 
             List<int> minList = new List<int>();
             char[] charString = str.ToArray();
-
-           for(int m = 0; m < charString.Length; m++)
-            {
-                for (int i = 0; i < PriorityArray.Length; i++)
-                {
-                    for (int j = 0; j < PriorityArray[i].Length; j++)
-                    {
-                        int counter = 0;
-                        char[] charArray = PriorityArray[i][j].ToArray();
-                        for (int k = 0; k < charArray.Length; k++)
-                        {
-                            if (m + charArray.Length <= charString.Length)
-                            {
-                                if (charString[m + k] == charArray[k])
-                                {
-                                    if (minList.Count > 0)
-                                    {
-                                        //игнорирование унарного минуса если список не пуст
-                                        if (m + k != minList.ElementAt(minList.Count - 1) && charArray[k] != '-')
-                                        {
-                                            counter++;
-                                        }
-                                    }
-                                    else
-                                    {
-                                        //игнорирование унарного минуса если список пуст
-                                        if (charArray[k] != '-')
-                                        {
-                                            counter++;
-                                        }
-                                    }
-                                }
-
-                            }
-                            else
-                            {
-                                break;
-                            }
-                        }
-
-                        if(counter == charArray.Length)
-                        {
-                            minList.Add(m);
-                            minList.Add(m + counter);
-                        }
-                    }
-                }
-            }
 
             for (int m = 0; m < charString.Length; m++)
             {
@@ -145,10 +97,83 @@ namespace ClassLibrary
                 }
             }
 
+            for (int m = 0; m < charString.Length; m++)
+            {
+                for (int i = 0; i < PriorityArray.Length; i++)
+                {
+                    for (int j = 0; j < PriorityArray[i].Length; j++)
+                    {
+                        int counter = 0;
+                        char[] charArray = PriorityArray[i][j].ToArray();
+                        for (int k = 0; k < charArray.Length; k++)
+                        {
+                            if (m + charArray.Length <= charString.Length)
+                            {
+                                if (charString[m + k] == charArray[k])
+                                {
+                                    counter++;
+                                }
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
 
-
+                        if (counter == charArray.Length)
+                        {
+                            minList.Add(m);
+                            minList.Add(m + counter);
+                        }
+                    }
+                }
+            }
 
             minList.Sort();
+
+            int[] arr = minList.ToArray();
+
+
+
+            for (int j = 0; j < arr.Length; j += 2)
+            {
+                if (j > 0)
+                {
+                    if (charString[arr[j]] == '-')
+                    {
+                        // если предыдущий индекс сосвпадает с текущим , то стираем
+                        if (arr[j - 1] == arr[j])
+                        {
+                            arr[j] = -1;
+                            arr[j + 1] = -1;
+                        }
+                    }
+                }
+                else
+                {
+                    if (charString[arr[j]] == '-')
+                    {
+                        if (arr[j + 1] != arr[j + 2])
+                        {
+                            arr[j] = -1;
+                            arr[j + 1] = -1;
+                        }
+                    }
+                }
+            }
+
+
+            minList.Clear();
+
+            for (int i = 0; i < arr.Length; i += 2)
+            {
+                if (arr[i] != -1)
+                {
+                    minList.Add(arr[i]);
+                    minList.Add(arr[i + 1]);
+                }
+            }
+
 
             return minList.ToArray();
 
